@@ -1,0 +1,108 @@
+{
+  "profile": {
+    "capital_range": "2k-5k",
+    "max_positions": 2,
+    "capital_per_trade": 2500,
+    "risk_tolerance": "conservative",
+    "timeframe": "swing_5days"
+  },
+  
+  "markets": {
+    "usa": ["sp500", "nasdaq100", "russell2000"],
+    "europe": ["stoxx50", "dax40", "ftse100"],
+    "etfs": ["sector_etfs"]
+  },
+  
+  "quality_filters": {
+    "enabled": true,
+    "min_market_cap": 5000000000,
+    "min_avg_volume": 1000000,
+    "min_price": 20.0,
+    "max_price": 1000.0,
+    "max_spread_pct": 0.5,
+    "min_data_days": 90,
+    "exclude_earnings_days": 7,
+    "max_beta": 1.8,
+    "min_volume_dollars": 20000000
+  },
+  
+  "sentiment": {
+    "enabled": true,
+    "finnhub_api_key_env": "FINNHUB_API_KEY",
+    "min_sentiment_score": -0.3,
+    "max_negative_news": 3,
+    "check_insider_trades": true,
+    "check_earnings_calendar": true
+  },
+  
+  "lookback_days": 90,
+  
+  "indicators": {
+    "ema_short": 5,
+    "ema_long": 20,
+    "ema_trend": 50,
+    "rsi_period": 9,
+    "stochastic": [9, 3, 3],
+    "macd_fast": 5,
+    "macd_slow": 13,
+    "macd_signal": 5,
+    "keltner_period": 10,
+    "keltner_multiplier": 2.0,
+    "atr_period": 7,
+    "adx_period": 14,
+    "supertrend_period": 7,
+    "supertrend_multiplier": 1.5
+  },
+  
+  "signal_thresholds": {
+    "rsi_oversold": 25,
+    "rsi_neutral": 50,
+    "stochastic_oversold": 15,
+    "adx_min": 25,
+    "volume_surge": 1.8,
+    "max_volatility_atr_pct": 1.5
+  },
+  
+  "scoring": {
+    "rsi_weight": 0.20,
+    "stochastic_weight": 0.15,
+    "ema_weight": 0.15,
+    "macd_weight": 0.15,
+    "volume_weight": 0.15,
+    "volatility_weight": 0.10,
+    "adx_weight": 0.10,
+    "green_threshold": 8.5,
+    "yellow_threshold": 8.0
+  },
+  
+  "targets": {
+    "profit_target_pct": 7.0,
+    "profit_target_conservative": 5.0,
+    "profit_target_aggressive": 10.0,
+    "stop_loss_pct": 1.0,
+    "min_risk_reward_ratio": 5.0
+  },
+  
+  "top_n": 3,
+  
+  "report_schedule": {
+    "friday": {
+      "enabled": true,
+      "hour_utc": 18,
+      "minute_utc": 0,
+      "type": "detailed"
+    },
+    "monday": {
+      "enabled": true,
+      "hour_utc": 8,
+      "minute_utc": 0,
+      "type": "update"
+    }
+  },
+  
+  "telegram": {
+    "enabled": true,
+    "token_env": "TELEGRAM_TOKEN",
+    "chat_id_env": "TELEGRAM_CHAT_ID"
+  }
+}
