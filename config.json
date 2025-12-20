@@ -27,7 +27,7 @@
   },
   
   "sentiment": {
-    "enabled": true,
+    "enabled": false,
     "finnhub_api_key_env": "FINNHUB_API_KEY",
     "min_sentiment_score": -0.3,
     "max_negative_news": 3,
