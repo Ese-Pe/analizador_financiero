@@ -37,10 +37,10 @@ def start_health_server():
 
 def run_analysis():
     """Ejecuta el análisis de mercado"""
-    day = datetime.utcnow().strftime("%A")
-    hour = datetime.utcnow().strftime("%H:%M")
+    day = datetime.now().strftime("%A")
+    hour = datetime.now().strftime("%H:%M")
     print(f"\n{'='*60}")
-    print(f"🚀 [{datetime.utcnow()}] Iniciando análisis")
+    print(f"🚀 [{datetime.now()}] Iniciando análisis")
     print(f"📅 {day} {hour} UTC")
     print(f"{'='*60}\n")
     
@@ -73,7 +73,7 @@ def main():
     print("🚀 ANALIZADOR FINANCIERO - Scheduler")
     print("="*60)
     print("📊 Optimizado para Render.com")
-    print(f"🕐 Servidor iniciado: {datetime.utcnow()} UTC")
+    print(f"🕐 Servidor iniciado: {datetime.now()} UTC")
     print()
     print("📅 Horario de ejecuciones:")
     print("   • Lunes-Viernes: 09:00 UTC (Análisis diario)")
@@ -82,7 +82,7 @@ def main():
     print()
     
     # Verificar variables de entorno
-    required_vars = ['TELEGRAM_TOKEN', 'TELEGRAM_CHAT_ID', 'FINNHUB_API_KEY']
+    required_vars = ['TELEGRAM_TOKEN', 'TELEGRAM_CHAT_ID']
     missing_vars = [var for var in required_vars if not os.getenv(var)]
     
     if missing_vars:
@@ -90,11 +90,19 @@ def main():
     else:
         print("✅ Todas las variables de entorno configuradas")
     
+    finnhub = os.getenv('FINNHUB_API_KEY')
+    if not finnhub:
+        print("⚠️  Finnhub deshabilitado (opcional)")
+    
     print()
     
     # Iniciar servidor de health checks en thread separado
     health_thread = threading.Thread(target=start_health_server, daemon=True)
     health_thread.start()
+    
+    # 🔥 EJECUCIÓN INMEDIATA AL ARRANCAR (para pruebas)
+    print("🔥 EJECUTANDO ANÁLISIS INICIAL (modo test)...")
+    run_analysis()
     
     # Programar tareas
     schedule.every().monday.at("09:00").do(run_analysis)
