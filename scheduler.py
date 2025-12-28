@@ -164,14 +164,14 @@ def main():
 
 if __name__ == "__main__":
     main()
-```
+"""
 
 ### **5. Click en "Commit changes"**
 
 ### **6. Mensaje de commit:**
-```
+"""
 fix: Replace schedule with APScheduler
-```
+"""
 
 ### **7. Click "Commit changes"**
 
@@ -186,7 +186,7 @@ Render detectará el cambio y redeployará automáticamente.
 ## 🔍 **VERIFICAR EN RENDER:**
 
 Ve a los logs y deberías ver:
-```
+"""
 ==> Installing dependencies
 Successfully installed APScheduler-3.11.2
 ==> Running 'python scheduler.py'
