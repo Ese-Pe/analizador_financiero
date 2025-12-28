@@ -190,11 +190,11 @@ Ve a los logs y deberías ver:
 ==> Installing dependencies
 Successfully installed APScheduler-3.11.2
 ==> Running 'python scheduler.py'
-print("🚀 ANALIZADOR FINANCIERO - Scheduler v2
+print("""🚀 ANALIZADOR FINANCIERO - Scheduler v2
 ✅ Variables configuradas
 ✅ Health check server on port 10000
 📅 Tareas programadas:
    • Keep-alive: Cada 10 min
    • Análisis diario: Lun-Vie 09:00 UTC
 ✅ Scheduler activo
-🔥 Ejecutando análisis inicial...")
+🔥 Ejecutando análisis inicial...""")
