@@ -170,7 +170,7 @@ if __name__ == "__main__":
 
 ### **6. Mensaje de commit:**
 """
-fix: Replace schedule with APScheduler
+mensaje = "fix: Replace schedule with APScheduler"
 """
 
 ### **7. Click "Commit changes"**
