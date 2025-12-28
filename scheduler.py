@@ -187,10 +187,10 @@ Render detectará el cambio y redeployará automáticamente.
 
 Ve a los logs y deberías ver:
 """
-==> Installing dependencies
+print("""==> Installing dependencies
 Successfully installed APScheduler-3.11.2
 ==> Running 'python scheduler.py'
-print("""🚀 ANALIZADOR FINANCIERO - Scheduler v2
+🚀 ANALIZADOR FINANCIERO - Scheduler v2
 ✅ Variables configuradas
 ✅ Health check server on port 10000
 📅 Tareas programadas:
