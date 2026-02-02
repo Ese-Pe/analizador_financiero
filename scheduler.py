@@ -12,6 +12,8 @@ import threading
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 import time
+import urllib.request
+import urllib.error
 
 logging.basicConfig(
     level=logging.INFO,
@@ -78,7 +80,19 @@ def run_analysis():
 
 
 def keep_alive_ping():
-    logger.info("⏰ Keep-alive ping")
+    """Mantiene el servicio activo haciendo ping al propio endpoint de health."""
+    port = int(os.environ.get('PORT', 10000))
+    url = f"http://localhost:{port}/health"
+
+    try:
+        req = urllib.request.Request(url, method='GET')
+        with urllib.request.urlopen(req, timeout=10) as response:
+            status = response.status
+            logger.info(f"⏰ Keep-alive ping OK (status: {status})")
+    except urllib.error.URLError as e:
+        logger.warning(f"⏰ Keep-alive ping fallido: {e}")
+    except Exception as e:
+        logger.warning(f"⏰ Keep-alive ping error: {e}")
 
 
 def main():
@@ -164,37 +178,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-"""
-
-### **5. Click en "Commit changes"**
-
-### **6. Mensaje de commit:**
-"""
-mensaje = "fix: Replace schedule with APScheduler"
-"""
-
-### **7. Click "Commit changes"**
-
----
-
-## ⏰ **ESPERAR 2-3 MINUTOS**
-
-Render detectará el cambio y redeployará automáticamente.
-
----
-
-## 🔍 **VERIFICAR EN RENDER:**
-
-Ve a los logs y deberías ver:
-"""
-print("""==> Installing dependencies
-Successfully installed APScheduler-3.11.2
-==> Running 'python scheduler.py'
-🚀 ANALIZADOR FINANCIERO - Scheduler v2
-✅ Variables configuradas
-✅ Health check server on port 10000
-📅 Tareas programadas:
-   • Keep-alive: Cada 10 min
-   • Análisis diario: Lun-Vie 09:00 UTC
-✅ Scheduler activo
-🔥 Ejecutando análisis inicial...""")
