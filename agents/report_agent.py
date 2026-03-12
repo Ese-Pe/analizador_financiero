@@ -83,11 +83,24 @@ class ReportAgent:
             macd = a.get('macd', 0)
             macd_signal_val = a.get('macd_signal', 0)
             macd_status = "✅ Alcista" if macd > macd_signal_val else "⚠️ Neutral"
-            
+
             # Emoji de tendencia
             trend_emoji = "📈" if trend == "alcista" else "📉" if trend == "bajista" else "➡️"
             volume_emoji = "🔊" if volume_ratio > 2.0 else "🔉" if volume_ratio > 1.5 else "🔈"
-            
+
+            # Sentiment info
+            sentiment = a.get('sentiment', {})
+            if sentiment:
+                sentiment_score = sentiment.get('score', 0)
+                sentiment_label = sentiment.get('label', 'neutral')
+                sentiment_emoji = "📰" if sentiment_score > 0 else "📉" if sentiment_score < 0 else "➖"
+                sentiment_info = (
+                    f"📰 *SENTIMENT:*\n"
+                    f"  └─ {sentiment_emoji} {sentiment_label} (score: {sentiment_score:+.1f})\n\n"
+                )
+            else:
+                sentiment_info = ""
+
             asset_report = (
                 f"{indicator} *{i}. {symbol}* - Score: `{score:.1f}/10`\n"
                 f"{'─' * 40}\n"
