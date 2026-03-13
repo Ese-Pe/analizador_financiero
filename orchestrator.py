@@ -8,6 +8,7 @@ from agents.selector_agent import SelectorAgent
 from agents.report_agent import ReportAgent
 from agents.quality_filter_agent import QualityFilterAgent
 from agents.sentiment_agent import SentimentAgent
+from agents.claude_analysis_agent import ClaudeAnalysisAgent
 from utils.tickers_sp500 import symbols_sp500
 from utils.tickers_nasdaq100 import symbols_nasdaq
 from utils.tickers_stoxx50 import symbols_stoxx
@@ -130,6 +131,15 @@ def main():
     if not results:
         print("⚠️ No hay oportunidades que cumplan los criterios.\n")
         results = []
+
+    # PASO 4b: Validación AI con Claude Sonnet 4.6
+    if results and os.getenv("ANTHROPIC_API_KEY"):
+        print(f"\n🤖 PASO 4b/6: Validación AI con Claude Sonnet 4.6...")
+        claude_agent = ClaudeAnalysisAgent(config)
+        results = claude_agent.analyze(results)
+    else:
+        if not os.getenv("ANTHROPIC_API_KEY"):
+            print("\n⚠️ ANTHROPIC_API_KEY no configurada. Saltando validación AI.")
 
     # PASO 5: Seleccionar los top
     print(f"\n🎯 PASO 5/6: Seleccionando mejores oportunidades...")
