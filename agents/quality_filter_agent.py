@@ -113,6 +113,7 @@ class QualityFilterAgent:
             
             for symbol in batch:
                 stock_info = self.get_stock_info(symbol)
+                time.sleep(0.5)
                 passes, reason = self.passes_quality_filters(stock_info)
                 
                 if passes:
