@@ -38,10 +38,10 @@
   "lookback_days": 90,
   
   "indicators": {
-    "ema_short": 5,
+    "ema_short": 8,
     "ema_long": 20,
     "ema_trend": 50,
-    "rsi_period": 9,
+    "rsi_period": 14,
     "stochastic": [9, 3, 3],
     "macd_fast": 5,
     "macd_slow": 13,
@@ -51,26 +51,28 @@
     "atr_period": 7,
     "adx_period": 14,
     "supertrend_period": 7,
-    "supertrend_multiplier": 1.5
+    "supertrend_multiplier": 1.5,
+    "williams_r_period": 5
   },
-  
+
   "signal_thresholds": {
     "rsi_oversold": 25,
     "rsi_neutral": 50,
     "stochastic_oversold": 15,
-    "adx_min": 25,
+    "adx_min": 20,
     "volume_surge": 1.8,
     "max_volatility_atr_pct": 1.5
   },
-  
+
   "scoring": {
-    "rsi_weight": 0.20,
-    "stochastic_weight": 0.15,
+    "rsi_weight": 0.18,
+    "stochastic_weight": 0.12,
+    "williams_r_weight": 0.10,
     "ema_weight": 0.15,
-    "macd_weight": 0.15,
+    "macd_weight": 0.13,
     "volume_weight": 0.15,
-    "volatility_weight": 0.10,
-    "adx_weight": 0.10,
+    "volatility_weight": 0.08,
+    "adx_weight": 0.09,
     "green_threshold": 8.5,
     "yellow_threshold": 8.0
   },

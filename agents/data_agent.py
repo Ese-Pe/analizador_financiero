@@ -94,6 +94,12 @@ class DataAgent:
         
         return supertrend, direction
 
+    def compute_williams_r(self, df, period=5):
+        """Calcula el Williams %R."""
+        high_max = df["High"].rolling(period).max()
+        low_min = df["Low"].rolling(period).min()
+        return -100 * (high_max - df["Close"]) / (high_max - low_min)
+
     def compute_vwap(self, df):
         """Calcula el VWAP (Volume Weighted Average Price)."""
         typical_price = (df["High"] + df["Low"] + df["Close"]) / 3
@@ -186,6 +192,10 @@ class DataAgent:
                         # VWAP (últimos 20 días para que sea relevante)
                         df["VWAP"] = self.compute_vwap(df.tail(20))
                         
+                        # Williams %R
+                        wr_period = indicators_config.get("williams_r_period", 5)
+                        df["Williams_R"] = self.compute_williams_r(df, wr_period)
+
                         # Volumen
                         df["Volume_MA"] = df["Volume"].rolling(20).mean()
                         df["Volume_Ratio"] = df["Volume"] / df["Volume_MA"]
@@ -231,6 +241,7 @@ class DataAgent:
                             "volume_ratio": round(float(latest["Volume_Ratio"]), 2),
                             "support": round(float(latest["Support"]), 2),
                             "resistance": round(float(latest["Resistance"]), 2),
+                            "williams_r": round(float(latest["Williams_R"]), 2),
                             "trend": self.compute_trend(df)
                         })
 

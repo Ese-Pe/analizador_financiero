@@ -29,7 +29,21 @@ class AnalysisAgent:
             rsi_score = 2
         score += rsi_score * self.weights.get("rsi_weight", 0.20)
         
-        # 2. Stochastic Score (15% del total) - Confirma sobreventa
+        # 2. Williams %R Score (10% del total) - Confirmación de momentum
+        williams_r = asset.get("williams_r", -50)
+        if williams_r < -90:
+            wr_score = 10  # Sobreventa extrema
+        elif williams_r < -80:
+            wr_score = 9
+        elif williams_r < -70:
+            wr_score = 7
+        elif williams_r < -50:
+            wr_score = 4
+        else:
+            wr_score = 2
+        score += wr_score * self.weights.get("williams_r_weight", 0.10)
+
+        # 3. Stochastic Score (12% del total) - Confirma sobreventa
         stoch_k = asset.get("stoch_k", 50)
         stoch_d = asset.get("stoch_d", 50)
         stoch_cross = stoch_k > stoch_d  # Cruce alcista
@@ -152,11 +166,11 @@ class AnalysisAgent:
         # Precio de entrada óptimo (entre precio actual y Keltner inferior)
         entry_optimal = min(close, keltner_lower * 1.002)  # 0.2% por encima de Keltner
         
-        # Stop loss: 1% o SuperTrend, lo que sea más cercano
-        stop_loss_pct = targets_config.get("stop_loss_pct", 1.0) / 100
-        stop_loss_price = close * (1 - stop_loss_pct)
-        stop_loss_supertrend = supertrend if supertrend < close else stop_loss_price
-        stop_loss = max(stop_loss_price, stop_loss_supertrend)  # El más conservador
+        # Stop loss basado en ATR (1.75x ATR = centro del rango óptimo 1.5x-2x)
+        atr_multiplier = 1.75
+        stop_loss_atr = entry_optimal - (atr * atr_multiplier)
+        stop_loss_supertrend = supertrend if supertrend < entry_optimal else stop_loss_atr
+        stop_loss = max(stop_loss_atr, stop_loss_supertrend)  # El más conservador
         
         # Objetivos de beneficio
         target_conservative = close * (1 + targets_config.get("profit_target_conservative", 5.0) / 100)
@@ -202,7 +216,7 @@ class AnalysisAgent:
         for asset in data_list:
             try:
                 # Validaciones básicas
-                required_fields = ["rsi", "ema_short", "ema_long", "macd", "macd_signal", "adx", "atr_pct"]
+                required_fields = ["rsi", "ema_short", "ema_long", "macd", "macd_signal", "adx", "atr_pct", "williams_r"]
                 if any(asset.get(f) is None or pd.isna(asset.get(f)) for f in required_fields):
                     continue
 
